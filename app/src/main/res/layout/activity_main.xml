@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/white"
+    android:padding="36dp">
+
+    <ScrollView
+        android:id="@+id/mainPageScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainPageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/auraLogo"
+                android:layout_width="match_parent"
+                android:layout_height="331dp"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/logo2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/getStartedBtn"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/rounded_button"
+                android:paddingEnd="16dp"
+                android:text="Get Started"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:drawableEnd="@drawable/right"
+                android:drawablePadding="-20dp"
+                app:layout_constraintStart_toStartOf="@id/auraLogo"
+                app:layout_constraintTop_toBottomOf="@id/auraLogo"
+                app:layout_constraintEnd_toEndOf="@id/auraLogo"/>
+
+            <TextView
+                android:id="@+id/quotetext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/shippori_mincho"
+                android:gravity="center"
+                android:text="Know what’s in your laundry, \n plan what’s in your closet."
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/auraLogo"
+                app:layout_constraintTop_toBottomOf="@id/butterfly"
+                app:layout_constraintEnd_toEndOf="@id/auraLogo"/>
+
+            <ImageView
+                android:id="@+id/butterfly"
+                android:layout_width="40dp"
+                android:layout_height="39dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="20dp"
+                android:rotation="33"
+                android:src="@drawable/butterfly"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/getStartedBtn"/>
+
+            <ImageView
+                android:id="@+id/butterfly1"
+                android:layout_width="37dp"
+                android:layout_height="29dp"
+                android:src="@drawable/butterfly"
+                android:rotation="-33"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="35dp"
+                app:layout_constraintTop_toBottomOf="@id/quotetext"
+                app:layout_constraintStart_toStartOf="@id/quotetext"/>
+            <ImageView
+                android:id="@+id/butterfly3"
+                android:layout_width="66dp"
+                android:layout_height="45dp"
+                android:src="@drawable/butterfly"
+                android:layout_marginTop="30dp"
+                android:rotation="32"
+                app:layout_constraintTop_toBottomOf="@id/quotetext"
+                app:layout_constraintEnd_toEndOf="@id/quotetext"/>
+            <ImageView
+                android:id="@+id/butterfly4"
+                android:layout_width="45dp"
+                android:layout_height="44dp"
+                android:rotation="34"
+                android:src="@drawable/butterfly"
+                android:layout_marginTop="40dp"
+                app:layout_constraintTop_toBottomOf="@id/butterfly1"
+                app:layout_constraintEnd_toStartOf="@id/butterfly1"/>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/topslide"
+                android:layout_width="306dp"
+                android:layout_height="309dp"
+                app:cardCornerRadius="20dp"
+                android:layout_marginTop="65dp"
+                android:layout_marginStart="45dp"
+                android:layout_marginBottom="20dp"
+
+                app:cardBackgroundColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/butterfly4"
+                app:layout_constraintStart_toEndOf="@id/butterfly4"
+                app:layout_constraintEnd_toStartOf="@id/butterfly5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.denzcoskun.imageslider.ImageSlider
+                    android:id="@+id/imageslider"
+                    android:layout_width="match_parent"
+                    android:layout_height="294dp"
+                    app:iss_period="1000"
+                    app:iss_delay="1000"
+                    app:iss_selected_dot="@color/black"
+                    app:iss_corner_radius="20" />
+            </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/butterfly5"
+                android:layout_width="45dp"
+                android:layout_height="44dp"
+                android:src="@drawable/butterfly"
+                android:rotation="-30"
+                app:cardElevation="20dp"
+                android:layout_marginStart="50dp"
+                app:layout_constraintTop_toBottomOf="@id/topslide"
+                app:layout_constraintStart_toEndOf="@id/topslide"/>
+            
+            <ImageView
+                android:id="@+id/butterfly7"
+                android:layout_width="45dp"
+                android:layout_height="44dp"
+                android:src="@drawable/butterfly"
+                android:rotation="-30"
+                app:layout_constraintTop_toBottomOf="@id/topslide"
+                app:layout_constraintStart_toEndOf="@id/bottomslide">
+
+            </ImageView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/bottomslide"
+                android:layout_width="306dp"
+                android:layout_height="400dp"
+                app:cardCornerRadius="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="20dp"
+                app:cardBackgroundColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@id/butterfly5"
+                app:layout_constraintTop_toBottomOf="@id/butterfly5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.denzcoskun.imageslider.ImageSlider
+                    android:id="@+id/bottomslider"
+                    android:layout_width="match_parent"
+                    android:layout_height="390dp"
+                    app:iss_period="1000"
+                    app:iss_delay="1000"
+                    app:iss_selected_dot="@color/black"
+                    app:iss_corner_radius="20" />
+            </androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/butterfly6"
+                android:layout_width="42dp"
+                android:layout_height="43dp"
+                android:src="@drawable/butterfly"
+                android:rotation="31"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/bottomslide"
+                app:layout_constraintEnd_toStartOf="@id/bottomslide"/>
+            <ImageView
+                android:id="@+id/butterfly8"
+                android:layout_width="37dp"
+                android:layout_height="30dp"
+                android:src="@drawable/butterfly"
+                android:rotation="15"
+                app:layout_constraintTop_toBottomOf="@id/bottomslide"
+                app:layout_constraintStart_toEndOf="@id/bottomslide">
+            </ImageView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
