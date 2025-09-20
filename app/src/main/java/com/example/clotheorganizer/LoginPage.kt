@@ -12,6 +12,8 @@ class LoginPage : AppCompatActivity() {
     private lateinit var forgotpassword: Button
     private lateinit var signUpButton : Button
 
+    private lateinit var loginButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -27,6 +29,7 @@ class LoginPage : AppCompatActivity() {
 
         forgotpassword = findViewById(R.id.forgotpassword)
         signUpButton = findViewById(R.id.signUpButton)
+        loginButton = findViewById(R.id.loginButton)
 
         forgotpassword.setOnClickListener {
             val intent = Intent(this, ForgotPassword::class.java)
@@ -35,6 +38,11 @@ class LoginPage : AppCompatActivity() {
 
         signUpButton.setOnClickListener {
             val intent = Intent(this, SignUpPage::class.java)
+            startActivity(intent)
+        }
+
+        loginButton.setOnClickListener {
+            val intent = Intent(this, dashboard::class.java)
             startActivity(intent)
         }
 
