@@ -2,47 +2,286 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
     tools:context=".dashboard">
 
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/logoButton"
+        android:layout_width="80dp"
+        android:layout_height="70dp"
+        android:src="@drawable/logo2"
+        android:layout_gravity="start"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Categories row -->
+    <LinearLayout
+        android:id="@+id/categorylayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
+
+        <!-- Card 1 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/all"
+            android:layout_width="115dp"
+            android:layout_height="95dp"
+            app:cardCornerRadius="5dp"
+            android:background="@color/white">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cardview2"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="65dp"
+                app:cardCornerRadius="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/all" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:fontFamily="@font/gfs_neohellenic"
+                android:text="All Items"
+                android:textSize="13sp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/white"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Card 2 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/clean"
+            android:layout_width="115dp"
+            android:layout_height="95dp"
+            android:layout_marginStart="10dp"
+            app:cardCornerRadius="5dp"
+            android:background="@color/white">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cardview2"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="65dp"
+                app:cardCornerRadius="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/clean" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:fontFamily="@font/gfs_neohellenic"
+                android:text="Clean Items"
+                android:textSize="13sp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/white"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Card 3 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/laundry"
+            android:layout_width="115dp"
+            android:layout_height="95dp"
+            android:layout_marginStart="10dp"
+            app:cardCornerRadius="5dp"
+            android:background="@color/white">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cardview2"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="65dp"
+                app:cardCornerRadius="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="8dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/laundry" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:fontFamily="@font/gfs_neohellenic"
+                android:text="In Laundry"
+                android:textSize="13sp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/white"/>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <!-- Category Label -->
+    <TextView
+        android:id="@+id/category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:fontFamily="@font/gfs_neohellenic"
+        android:textStyle="bold"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"/>
+
+    <LinearLayout
+        android:id="@+id/category_options"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
+        android:paddingEnd="10dp">
+
+        <!-- Button -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/all_btn"
+            android:layout_width="80dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/cardview2"
+            android:fontFamily="@font/inter"
+            android:text="all"
+            android:textAllCaps="false"
+            android:textColor="@color/white"/>
+
+        <Spinner
+            android:id="@+id/topSpinner"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/cardview_background"
+            android:fontFamily="@font/inter"
+            android:text="all"
+            android:textAllCaps="false"
+            android:textColor="@color/white"/>
+
+        <Spinner
+            android:id="@+id/bottomSpinner"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/cardview_background"
+            android:fontFamily="@font/inter"
+            android:text="all"
+            android:textAllCaps="false"
+            android:textColor="@color/white"/>
+
+        <Spinner
+            android:id="@+id/accSpinner"
+            android:layout_width="105dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/cardview_background"
+            android:fontFamily="@font/inter"
+            android:text="all"
+            android:textAllCaps="false"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <!-- Search Bar -->
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/search_background"
+            android:queryHint="Search clothes..."
+            android:iconifiedByDefault="false"
+            android:visibility="gone"
+            app:iconifiedByDefault="false"
+            android:layout_marginEnd="10dp"
+            app:searchIcon="@null"
+            app:closeIcon="@null" />
+
+        <!-- Search / X Icon -->
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            app:lottie_fileName="search_icon.json"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false" />
+    </LinearLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".MainActivity">
 
-        <!-- Content container -->
         <FrameLayout
             android:id="@+id/item_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="75dp" />
+            android:layout_height="match_parent">
 
-        <!-- Bottom App Bar -->
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottomAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/white"
-            app:fabAlignmentMode="center"
-            app:fabCradleMargin="8dp"
-            app:fabCradleRoundedCornerRadius="28dp"
-            app:fabCradleVerticalOffset="0dp">
-
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottomNavigationView"
+            <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/bottomAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                app:labelVisibilityMode="labeled"
-                app:menu="@menu/bottom_menu" />
-        </com.google.android.material.bottomappbar.BottomAppBar>
+                android:layout_gravity="bottom"
+                android:background="@color/white"
+                app:fabCradleMargin="8dp"
+                app:fabCradleRoundedCornerRadius="28dp"
+                app:fabCradleVerticalOffset="0dp"
+                app:fabAlignmentMode="center"
+                app:hideOnScroll="false"
+                tools:ignore="BottomAppBar">
 
-        <!-- Floating Action Button -->
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottomNavigationView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    app:labelVisibilityMode="labeled"
+                    app:menu="@menu/bottom_menu"/>
+            </com.google.android.material.bottomappbar.BottomAppBar>
+
+        </FrameLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -52,8 +291,6 @@
             app:tint="@color/purple"
             app:layout_anchor="@id/bottomAppBar"
             app:layout_anchorGravity="center|top"
-            app:maxImageSize="36dp" />
-
+            app:maxImageSize="36dp"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 </LinearLayout>
