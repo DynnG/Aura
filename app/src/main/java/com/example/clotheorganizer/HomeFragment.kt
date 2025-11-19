@@ -108,7 +108,7 @@ class HomeFragment : Fragment() {
                 parent: ViewGroup
             ): View {
                 val view = super.getDropDownView(position, convertView, parent) as TextView
-                view.setTextColor(if (position == 0) Color.GRAY else Color.BLACK)
+                view.setTextColor(if (position == 0) Color.GRAY else Color.WHITE)
                 return view
             }
         }
