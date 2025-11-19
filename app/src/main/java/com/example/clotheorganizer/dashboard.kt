@@ -81,6 +81,7 @@ class dashboard : AppCompatActivity() {
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent) as TextView
                 view.setTextColor(if (position == 0) Color.GRAY else Color.BLACK)
+                view.setTextColor(if (position != 0) Color.WHITE else Color.WHITE)
                 return view
             }
         }
@@ -107,6 +108,7 @@ class dashboard : AppCompatActivity() {
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent) as TextView
                 view.setTextColor(if (position == 0) Color.GRAY else Color.BLACK)
+                view.setTextColor(if (position != 0) Color.WHITE else Color.WHITE)
                 return view
             }
         }

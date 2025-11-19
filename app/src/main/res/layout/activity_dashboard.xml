@@ -41,7 +41,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/cardview_background"/>
+                android:background="@drawable/cardview2"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="100dp"
@@ -65,7 +65,7 @@
                 android:text="All Items"
                 android:textSize="13sp"
                 android:layout_marginStart="10dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/white"/>
         </androidx.cardview.widget.CardView>
 
         <!-- Card 2 -->
@@ -80,7 +80,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/cardview_background"/>
+                android:background="@drawable/cardview2"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="100dp"
@@ -104,7 +104,7 @@
                 android:text="Clean Items"
                 android:textSize="13sp"
                 android:layout_marginStart="10dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/white"/>
         </androidx.cardview.widget.CardView>
 
         <!-- Card 3 -->
@@ -119,7 +119,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/cardview_background"/>
+                android:background="@drawable/cardview2"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="100dp"
@@ -143,7 +143,7 @@
                 android:text="In Laundry"
                 android:textSize="13sp"
                 android:layout_marginStart="10dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/white"/>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 
@@ -184,7 +184,7 @@
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/cardview2"
+            android:background="@drawable/cardview_background"
             android:fontFamily="@font/inter"
             android:text="all"
             android:textAllCaps="false"
@@ -196,7 +196,7 @@
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/cardview2"
+            android:background="@drawable/cardview_background"
             android:fontFamily="@font/inter"
             android:text="all"
             android:textAllCaps="false"
@@ -208,11 +208,11 @@
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/cardview2"
+            android:background="@drawable/cardview_background"
             android:fontFamily="@font/inter"
             android:text="all"
             android:textAllCaps="false"
-            android:textColor="@color/white"/>
+            android:textColor="@color/black"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

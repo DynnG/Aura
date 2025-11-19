@@ -1,5 +1,6 @@
 package com.example.clotheorganizer
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -21,6 +22,11 @@ class SignUpPage : AppCompatActivity() {
         }
 
         su_backBttn = findViewById(R.id.su_backBttn)
+
+        su_backBttn.setOnClickListener {
+            val intent = Intent(this, LoginPage::class.java)
+            startActivity(intent)
+        }
 
     }
 }
