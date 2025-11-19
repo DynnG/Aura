@@ -13,8 +13,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ====================== TOP SECTION ====================== -->
-
         <!-- Logo -->
         <ImageView
             android:id="@+id/logoButton"
@@ -242,7 +240,6 @@
 
         </LinearLayout>
 
-        <!-- ITEMS / CONTENT -->
         <FrameLayout
             android:id="@+id/item_container"
             android:layout_width="match_parent"

@@ -46,9 +46,7 @@ class dashboard : AppCompatActivity() {
                     true
                 }
                 R.id.loglout -> {
-                    Toast.makeText(this, "Logout clicked", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, LoginPage::class.java)
-                    startActivity(intent)
+                    finishAffinity()
                     true
                 }
                 else -> false
