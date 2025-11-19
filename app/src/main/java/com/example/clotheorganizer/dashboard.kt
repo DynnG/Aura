@@ -22,8 +22,12 @@ import com.airbnb.lottie.LottieAnimationView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import android.content.Intent
+import android.widget.Button
+import androidx.appcompat.widget.AppCompatButton
 
 class dashboard : AppCompatActivity() {
+    private lateinit var allbtn: AppCompatButton
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,9 +74,15 @@ class dashboard : AppCompatActivity() {
         }
 
         // --------- Spinner Setup ----------
+        allbtn = findViewById(R.id.all_btn)
         val topSpinner = findViewById<Spinner>(R.id.topSpinner)
         val bottomSpinner = findViewById<Spinner>(R.id.bottomSpinner)
         val accSpinner = findViewById<Spinner>(R.id.accSpinner)
+
+        //ButtonEvent
+        allbtn.setOnClickListener {
+            //TODO:call all items in the database
+        }
 
         // Top options
         val topOptions = arrayOf("Tops", "Tshirt", "Polo", "Sleeveless")
@@ -81,7 +91,6 @@ class dashboard : AppCompatActivity() {
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent) as TextView
                 view.setTextColor(if (position == 0) Color.GRAY else Color.BLACK)
-                view.setTextColor(if (position != 0) Color.WHITE else Color.WHITE)
                 return view
             }
         }
@@ -108,7 +117,6 @@ class dashboard : AppCompatActivity() {
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getDropDownView(position, convertView, parent) as TextView
                 view.setTextColor(if (position == 0) Color.GRAY else Color.BLACK)
-                view.setTextColor(if (position != 0) Color.WHITE else Color.WHITE)
                 return view
             }
         }
@@ -130,6 +138,18 @@ class dashboard : AppCompatActivity() {
                 R.id.loglout -> {
                     Toast.makeText(this, "Logout clicked", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, LoginPage::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.history -> {
+                    Toast.makeText(this, "History clicked", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, History::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.outfit -> {
+                    Toast.makeText(this, "Outfits clicked", Toast.LENGTH_SHORT).show()
+                    val intent = Intent (this, Outfits::class.java)
                     startActivity(intent)
                     true
                 }
