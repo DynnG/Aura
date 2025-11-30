@@ -57,6 +57,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.github.denzcoskun:ImageSlideshow:0.1.0")
-    implementation("com.google.android.material:material:1.9.0")
     implementation("com.airbnb.android:lottie:6.6.0")
 }
