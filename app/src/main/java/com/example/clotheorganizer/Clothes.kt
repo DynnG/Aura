@@ -1,6 +1,6 @@
 package com.example.clotheorganizer
 
-class Clothes(
+data class Clothes(
     var clothesID: Int? = null,
     var userID: Int? = null,
     var categoryID: Int? = null,
