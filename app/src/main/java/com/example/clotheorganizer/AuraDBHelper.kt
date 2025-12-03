@@ -1,5 +1,6 @@
 package com.example.clotheorganizer
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -13,10 +14,10 @@ class AuraDBHelper(context: Context) :
         db.execSQL(
             "CREATE TABLE $TABLE_USERS (" +
                     "userID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "userName TEXT, " +
-                    "password TEXT, " +
-                    "email TEXT, " +
-                    "fullname TEXT)"
+                    "userName TEXT NOT NULL, " +
+                    "password TEXT NOT NULL, " +
+                    "email TEXT NOT NULL, " +
+                    "fullname TEXT NOT NULL)"
         )
 
         // CATEGORY TABLE
@@ -94,9 +95,80 @@ class AuraDBHelper(context: Context) :
         onCreate(db)
     }
 
+    fun addUser(user: User): Boolean {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put("userName", user.userName)
+        values.put("password", user.password)
+        values.put("email", user.email)
+        values.put("fullname", user.fullname)
+
+        val result = db.insert(TABLE_USERS, null, values)
+        db.close()
+        return result != -1L
+    }
+
+    fun checkUser(username: String, pass: String): User? {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_USERS WHERE userName = ? AND password = ?", arrayOf(username, pass))
+        var user: User? = null
+        if (cursor.moveToFirst()) {
+            val userId = cursor.getInt(cursor.getColumnIndexOrThrow("userID"))
+            val uName = cursor.getString(cursor.getColumnIndexOrThrow("userName"))
+            val pWord = cursor.getString(cursor.getColumnIndexOrThrow("password"))
+            val email = cursor.getString(cursor.getColumnIndexOrThrow("email"))
+            val fullname = cursor.getString(cursor.getColumnIndexOrThrow("fullname"))
+            user = User(userId, uName, pWord, email, fullname)
+        }
+        cursor.close()
+        db.close()
+        return user
+    }
+
+    fun addCloth(cloth: Clothes): Long {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put("userID", cloth.userID)
+        values.put("categoryID", cloth.categoryID)
+        values.put("statusID", cloth.statusID)
+        values.put("typeID", cloth.typeID)
+        values.put("name", cloth.name)
+        values.put("image_path", cloth.image_path)
+        values.put("date_added", cloth.date_added)
+        values.put("usage_count", cloth.usage_count)
+
+        val id = db.insert(TABLE_CLOTHES, null, values)
+        db.close()
+        return id
+    }
+
+    fun getAllClothes(): List<Clothes> {
+        val clothesList = ArrayList<Clothes>()
+        val selectQuery = "SELECT * FROM $TABLE_CLOTHES ORDER BY clothesID DESC"
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(selectQuery, null)
+        if (cursor.moveToFirst()) {
+            do {
+                val cloth = Clothes()
+                cloth.clothesID = cursor.getInt(cursor.getColumnIndexOrThrow("clothesID"))
+                cloth.userID = cursor.getInt(cursor.getColumnIndexOrThrow("userID"))
+                cloth.categoryID = cursor.getInt(cursor.getColumnIndexOrThrow("categoryID"))
+                cloth.statusID = cursor.getInt(cursor.getColumnIndexOrThrow("statusID"))
+                cloth.typeID = cursor.getInt(cursor.getColumnIndexOrThrow("typeID"))
+                cloth.name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+                cloth.image_path = cursor.getString(cursor.getColumnIndexOrThrow("image_path"))
+                cloth.date_added = cursor.getString(cursor.getColumnIndexOrThrow("date_added"))
+                cloth.usage_count = cursor.getInt(cursor.getColumnIndexOrThrow("usage_count"))
+                clothesList.add(cloth)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return clothesList
+    }
+
     companion object {
         private const val DATABASE_NAME = "clotheorganizer.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
 
         const val TABLE_USERS = "Users"
         const val TABLE_CATEGORY = "Category"

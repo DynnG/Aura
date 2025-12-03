@@ -190,7 +190,8 @@
                 android:layout_height="35dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/cardview_background" />
+                android:background="@drawable/cardview_background"
+                android:popupBackground="@drawable/spinner_dropdown_background" />
 
             <Spinner
                 android:id="@+id/bottomSpinner"
@@ -198,7 +199,8 @@
                 android:layout_height="35dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/cardview_background" />
+                android:background="@drawable/cardview_background"
+                android:popupBackground="@drawable/spinner_dropdown_background" />
 
             <Spinner
                 android:id="@+id/accSpinner"
@@ -206,7 +208,8 @@
                 android:layout_height="35dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/cardview_background" />
+                android:background="@drawable/cardview_background"
+                android:popupBackground="@drawable/spinner_dropdown_background" />
 
         </LinearLayout>
 
@@ -241,11 +244,15 @@
 
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/item_container"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvClothes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="120dp" />
+            android:paddingBottom="120dp"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:listitem="@layout/item_clothing" />
 
     </LinearLayout>
 
