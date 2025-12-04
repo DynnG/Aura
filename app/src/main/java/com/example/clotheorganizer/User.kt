@@ -1,9 +1,9 @@
 package com.example.clotheorganizer
 
-data class User(
-    val userID: Int? = null,
-    val userName: String,
-    val password: String,
-    val email: String,
-    val fullname: String
+class User(
+    var userID: Int? = null,
+    var userName: String? = null,
+    var password: String? = null,
+    var email: String? = null,
+    var fullname: String? = null
 )

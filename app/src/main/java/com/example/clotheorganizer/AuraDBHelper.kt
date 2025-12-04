@@ -125,6 +125,47 @@ class AuraDBHelper(context: Context) :
         return user
     }
 
+    fun addCloth(cloth: Clothes): Long {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put("userID", cloth.userID)
+        values.put("categoryID", cloth.categoryID)
+        values.put("statusID", cloth.statusID)
+        values.put("typeID", cloth.typeID)
+        values.put("name", cloth.name)
+        values.put("image_path", cloth.image_path)
+        values.put("date_added", cloth.date_added)
+        values.put("usage_count", cloth.usage_count)
+
+        val id = db.insert(TABLE_CLOTHES, null, values)
+        db.close()
+        return id
+    }
+
+    fun getAllClothes(): List<Clothes> {
+        val clothesList = ArrayList<Clothes>()
+        val selectQuery = "SELECT * FROM $TABLE_CLOTHES ORDER BY clothesID DESC"
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(selectQuery, null)
+        if (cursor.moveToFirst()) {
+            do {
+                val cloth = Clothes()
+                cloth.clothesID = cursor.getInt(cursor.getColumnIndexOrThrow("clothesID"))
+                cloth.userID = cursor.getInt(cursor.getColumnIndexOrThrow("userID"))
+                cloth.categoryID = cursor.getInt(cursor.getColumnIndexOrThrow("categoryID"))
+                cloth.statusID = cursor.getInt(cursor.getColumnIndexOrThrow("statusID"))
+                cloth.typeID = cursor.getInt(cursor.getColumnIndexOrThrow("typeID"))
+                cloth.name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+                cloth.image_path = cursor.getString(cursor.getColumnIndexOrThrow("image_path"))
+                cloth.date_added = cursor.getString(cursor.getColumnIndexOrThrow("date_added"))
+                cloth.usage_count = cursor.getInt(cursor.getColumnIndexOrThrow("usage_count"))
+                clothesList.add(cloth)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return clothesList
+    }
+
     companion object {
         private const val DATABASE_NAME = "clotheorganizer.db"
         private const val DATABASE_VERSION = 2
