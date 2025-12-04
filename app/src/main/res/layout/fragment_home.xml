@@ -12,7 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        
+
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/logoButton"
+            android:layout_width="80dp"
+            android:layout_height="70dp"
+            android:src="@drawable/logo2"
+            android:layout_gravity="start"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp" />
+
         <!-- Categories Row -->
         <LinearLayout
             android:id="@+id/categorylayout"
@@ -20,7 +30,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_horizontal"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp">
 
@@ -30,7 +40,9 @@
                 android:layout_width="115dp"
                 android:layout_height="95dp"
                 app:cardCornerRadius="5dp"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -52,6 +64,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <TextView
+                    android:id="@+id/txtAll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="70dp"
@@ -69,7 +82,9 @@
                 android:layout_height="95dp"
                 android:layout_marginStart="10dp"
                 app:cardCornerRadius="5dp"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -91,6 +106,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <TextView
+                    android:id="@+id/txtClean"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="70dp"
@@ -108,7 +124,9 @@
                 android:layout_height="95dp"
                 android:layout_marginStart="10dp"
                 app:cardCornerRadius="5dp"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -130,6 +148,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <TextView
+                    android:id="@+id/txtLaundry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="70dp"

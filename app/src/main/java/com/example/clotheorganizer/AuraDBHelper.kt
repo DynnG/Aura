@@ -142,6 +142,15 @@ class AuraDBHelper(context: Context) :
         return id
     }
 
+    fun updateClothStatus(clothId: Int, statusId: Int): Int {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put("statusID", statusId)
+        val result = db.update(TABLE_CLOTHES, values, "clothesID = ?", arrayOf(clothId.toString()))
+        db.close()
+        return result
+    }
+
     fun getAllClothes(): List<Clothes> {
         val clothesList = ArrayList<Clothes>()
         val selectQuery = "SELECT * FROM $TABLE_CLOTHES ORDER BY clothesID DESC"
