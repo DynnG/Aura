@@ -38,8 +38,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.46" />
+        app:layout_constraintGuide_percent="0.42" />
 
+    <!-- 1. NECKLACE (Weight 1) -->
     <androidx.cardview.widget.CardView
         android:id="@+id/card_necklace"
         android:layout_width="0dp"
@@ -57,12 +58,13 @@
         app:layout_constraintVertical_weight="1">
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager_necklace"
+            android:id="@+id/pager_accessories1"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </androidx.cardview.widget.CardView>
 
+    <!-- 2. BAG (Weight 1) -->
     <androidx.cardview.widget.CardView
         android:id="@+id/card_bag"
         android:layout_width="0dp"
@@ -76,28 +78,59 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
         app:layout_constraintTop_toBottomOf="@id/card_necklace"
-        app:layout_constraintBottom_toTopOf="@id/space_shoes">
+        app:layout_constraintBottom_toTopOf="@id/card_accessory3">
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager_bag"
+            android:id="@+id/pager_accessories2"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </androidx.cardview.widget.CardView>
 
-    <!-- Placeholder Space to maintain layout structure -->
-    <Space
-        android:id="@+id/space_shoes"
+    <!-- 3. ACCESSORY CARD 1 (Weight changed to 1) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_accessory3"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintVertical_weight="0.8"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
         app:layout_constraintTop_toBottomOf="@id/card_bag"
-        app:layout_constraintBottom_toTopOf="@id/btn_create_random" />
+        app:layout_constraintBottom_toTopOf="@id/card_accessory4">
 
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager_accessories3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- 4. ACCESSORY CARD 2 (Weight changed to 1) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_accessory4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
+        app:layout_constraintTop_toBottomOf="@id/card_accessory3"
+        app:layout_constraintBottom_toTopOf="@id/btn_create_random">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager_accessories4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- RIGHT COLUMN (Shirt & Jeans) -->
     <androidx.cardview.widget.CardView
         android:id="@+id/card_shirt"
         android:layout_width="0dp"
@@ -107,12 +140,12 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
         app:cardCornerRadius="20dp"
-        app:cardElevation="2dp"
+        app:cardElevation="4dp"
         app:layout_constraintBottom_toTopOf="@id/card_jeans"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline_vertical"
         app:layout_constraintTop_toBottomOf="@id/img_logo"
-        app:layout_constraintVertical_weight="0.9">
+        app:layout_constraintVertical_weight="1.2">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager_shirt"
