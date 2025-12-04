@@ -18,6 +18,7 @@ class dashboard : AppCompatActivity() {
     private lateinit var dbHelper: AuraDBHelper
     private var backPressedTime: Long = 0
     private lateinit var backToast: Toast
+    private lateinit var addClothingDialog: AddClothingDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +78,7 @@ class dashboard : AppCompatActivity() {
             }
         }
 
-        // FAB: Image Picker
+        // Image Picker
         val pickImageLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
             if (uri != null) {
                 try {
@@ -86,26 +87,21 @@ class dashboard : AppCompatActivity() {
                         uri,
                         Intent.FLAG_GRANT_READ_URI_PERMISSION
                     )
+                    // Set the image in the dialog
+                    if (::addClothingDialog.isInitialized && addClothingDialog.isShowing) {
+                        addClothingDialog.setImage(uri)
+                    }
+
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
+            }
+        }
 
-                val date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
-                
-                // Create new Clothes object
-                val newCloth = Clothes()
-                newCloth.image_path = uri.toString()
-                newCloth.name = "New Item"
-                newCloth.date_added = date
-                newCloth.userID = 1 // Hardcoded for now
-                newCloth.statusID = 1 // 1 = Clean
-                newCloth.categoryID = 1 // Default
-                newCloth.typeID = 1 // Default
-                newCloth.usage_count = 0
-
+        fab.setOnClickListener {
+            addClothingDialog = AddClothingDialog(this, pickImageLauncher) { newCloth ->
                 val id = dbHelper.addCloth(newCloth)
-
-                /*if (id > -1) {
+                if (id > -1) {
                     Toast.makeText(this, "Item added!", Toast.LENGTH_SHORT).show()
                     // Refresh current fragment if it's HomeFragment
                     val currentFragment = supportFragmentManager.findFragmentById(R.id.item_container)
@@ -114,12 +110,9 @@ class dashboard : AppCompatActivity() {
                     }
                 } else {
                     Toast.makeText(this, "Error adding item", Toast.LENGTH_SHORT).show()
-                }*/
+                }
             }
-        }
-
-        fab.setOnClickListener {
-            pickImageLauncher.launch(arrayOf("image/*"))
+            addClothingDialog.show()
         }
     }
 }
