@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,8 +30,15 @@ class HomeFragment : Fragment() {
     private lateinit var textAll: TextView
     private lateinit var textClean: TextView
     private lateinit var textLaundry: TextView
+    private lateinit var allBtn: AppCompatButton
+    
+    // Spinners
+    private lateinit var topSpinner: Spinner
+    private lateinit var bottomSpinner: Spinner
+    private lateinit var accSpinner: Spinner
     
     private var activeFilter = "all" // default filter
+    private var selectedType: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,17 +62,22 @@ class HomeFragment : Fragment() {
         textAll = view.findViewById(R.id.txtAll)
         textClean = view.findViewById(R.id.txtClean)
         textLaundry = view.findViewById(R.id.txtLaundry)
+        allBtn = view.findViewById(R.id.all_btn)
+        
+        topSpinner = view.findViewById(R.id.topSpinner)
+        bottomSpinner = view.findViewById(R.id.bottomSpinner)
+        accSpinner = view.findViewById(R.id.accSpinner)
 
         // Setup RecyclerView
         rvClothes.layoutManager = GridLayoutManager(requireContext(), 2)
         clothesList = ArrayList()
         adapter = ClothesAdapter(requireContext(), clothesList, dbHelper) { 
-            filterClothes(activeFilter)
+            refreshData()
         }
         rvClothes.adapter = adapter
 
         // Initial load
-        filterClothes(activeFilter)
+        applyFilters()
         updateCardUI(cardAll, textAll)
 
         // Click Listeners
@@ -81,10 +95,14 @@ class HomeFragment : Fragment() {
             filterClothes("laundry")
             updateCardUI(cardLaundry, textLaundry)
         }
-
-        val topSpinner = view.findViewById<Spinner>(R.id.topSpinner)
-        val bottomSpinner = view.findViewById<Spinner>(R.id.bottomSpinner)
-        val accSpinner = view.findViewById<Spinner>(R.id.accSpinner)
+        
+        allBtn.setOnClickListener { 
+            selectedType = null
+            resetSpinners()
+            filterClothes("all")
+            allBtn.setBackgroundResource(R.drawable.rounded_button_pressed)
+            allBtn.setTextColor(Color.BLACK)
+        }
 
         setupSpinner(
             topSpinner,
@@ -98,25 +116,41 @@ class HomeFragment : Fragment() {
 
         setupSpinner(
             accSpinner,
-            arrayOf("Accessories", "Bag", "Necklace", "Shoes")
+            arrayOf("Accessories", "Necklace", "Bracelets", "Bags", "Extra")
         )
     }
 
     fun refreshData() {
-        filterClothes(activeFilter)
+        applyFilters()
     }
     
     private fun filterClothes(filter: String) {
         activeFilter = filter
+        applyFilters()
+    }
+    
+    private fun filterClothesByType(typeName: String) {
+        selectedType = typeName
+        applyFilters()
+        allBtn.setBackgroundResource(R.drawable.cardview2)
+        allBtn.setTextColor(Color.WHITE)
+    }
+
+    private fun applyFilters() {
         if (!::dbHelper.isInitialized) return
         
-        val allClothes = dbHelper.getAllClothes()
+        val baseList = if (selectedType != null) {
+            dbHelper.getClothesByType(selectedType!!)
+        } else {
+            dbHelper.getAllClothes()
+        }
+        
         clothesList.clear()
         
-        when (filter) {
-            "all" -> clothesList.addAll(allClothes)
-            "clean" -> clothesList.addAll(allClothes.filter { it.statusID == 1 }) // Assuming 1 is clean
-            "laundry" -> clothesList.addAll(allClothes.filter { it.statusID == 2 }) // Assuming 2 is laundry
+        when (activeFilter) {
+            "all" -> clothesList.addAll(baseList)
+            "clean" -> clothesList.addAll(baseList.filter { it.statusID == 1 }) // Assuming 1 is clean
+            "laundry" -> clothesList.addAll(baseList.filter { it.statusID == 2 }) // Assuming 2 is laundry
         }
         adapter.notifyDataSetChanged()
     }
@@ -137,6 +171,18 @@ class HomeFragment : Fragment() {
         val backgroundView = card.getChildAt(0)
         backgroundView.setBackgroundResource(R.drawable.cardview2)
         text.setTextColor(Color.WHITE)
+    }
+    
+    private fun resetSpinners() {
+        topSpinner.setSelection(0)
+        bottomSpinner.setSelection(0)
+        accSpinner.setSelection(0)
+    }
+    
+    private fun resetOtherSpinners(currentSpinnerId: Int) {
+        if (topSpinner.id != currentSpinnerId) topSpinner.setSelection(0)
+        if (bottomSpinner.id != currentSpinnerId) bottomSpinner.setSelection(0)
+        if (accSpinner.id != currentSpinnerId) accSpinner.setSelection(0)
     }
 
     private fun setupSpinner(spinner: Spinner, items: Array<String>) {
@@ -166,5 +212,16 @@ class HomeFragment : Fragment() {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (position > 0) {
+                    // Reset others
+                    resetOtherSpinners(spinner.id)
+                    filterClothesByType(parent.getItemAtPosition(position).toString())
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
     }
 }

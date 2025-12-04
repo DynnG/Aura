@@ -98,15 +98,15 @@
                 <com.google.android.material.chip.Chip style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="T-Shirts"/>
+                    android:text="T-shirt"/>
                 <com.google.android.material.chip.Chip style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Blouses"/>
+                    android:text="Polo"/>
                 <com.google.android.material.chip.Chip style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Polos"/>
+                    android:text="Sleeveless"/>
             </com.google.android.material.chip.ChipGroup>
 
             <!-- Types for Bottoms -->
@@ -151,6 +151,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Bags"/>
+                <com.google.android.material.chip.Chip style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Extra"/>
             </com.google.android.material.chip.ChipGroup>
 
         </LinearLayout>

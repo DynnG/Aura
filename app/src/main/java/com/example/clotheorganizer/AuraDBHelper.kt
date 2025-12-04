@@ -82,6 +82,34 @@ class AuraDBHelper(context: Context) :
                     "FOREIGN KEY(outfitID) REFERENCES $TABLE_OUTFIT(outfitID), " +
                     "FOREIGN KEY(clothesID) REFERENCES $TABLE_CLOTHES(clothesID))"
         )
+
+        // --- PRE-POPULATE DATA ---
+
+        // Categories
+        db.execSQL("INSERT INTO $TABLE_CATEGORY (categoryName) VALUES ('Tops')") // 1
+        db.execSQL("INSERT INTO $TABLE_CATEGORY (categoryName) VALUES ('Bottoms')") // 2
+        db.execSQL("INSERT INTO $TABLE_CATEGORY (categoryName) VALUES ('Accessories')") // 3
+
+        // SubCategories (Types)
+        // Tops (1)
+        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (1, 'T-shirt')")
+        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (1, 'Polo')")
+        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (1, 'Sleeveless')")
+
+        // Bottoms (2)
+        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (2, 'Trousers')")
+        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (2, 'Jeans')")
+        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (2, 'Sweatpants')")
+
+        // Accessories (3)
+        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (3, 'Bags')")
+        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (3, 'Necklace')")
+        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (3, 'Extra')")
+        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (3, 'Bracelets')")
+        
+        // Status
+        db.execSQL("INSERT INTO $TABLE_STATUS (status, lastUpdated) VALUES ('Clean', ${System.currentTimeMillis()})") // 1
+        db.execSQL("INSERT INTO $TABLE_STATUS (status, lastUpdated) VALUES ('Laundry', ${System.currentTimeMillis()})") // 2
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -175,9 +203,46 @@ class AuraDBHelper(context: Context) :
         return clothesList
     }
 
+    fun getClothesByType(typeName: String): List<Clothes> {
+        val clothesList = ArrayList<Clothes>()
+        // Use INNER JOIN to ensure we only get clothes that have a matching valid type
+        val selectQuery = "SELECT c.* FROM $TABLE_CLOTHES c INNER JOIN $TABLE_SUBCATEGORY s ON c.typeID = s.typeID WHERE s.typeName = ? ORDER BY c.clothesID DESC"
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(selectQuery, arrayOf(typeName))
+        if (cursor.moveToFirst()) {
+            do {
+                val cloth = Clothes()
+                cloth.clothesID = cursor.getInt(cursor.getColumnIndexOrThrow("clothesID"))
+                cloth.userID = cursor.getInt(cursor.getColumnIndexOrThrow("userID"))
+                cloth.categoryID = cursor.getInt(cursor.getColumnIndexOrThrow("categoryID"))
+                cloth.statusID = cursor.getInt(cursor.getColumnIndexOrThrow("statusID"))
+                cloth.typeID = cursor.getInt(cursor.getColumnIndexOrThrow("typeID"))
+                cloth.name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+                cloth.image_path = cursor.getString(cursor.getColumnIndexOrThrow("image_path"))
+                cloth.date_added = cursor.getString(cursor.getColumnIndexOrThrow("date_added"))
+                cloth.usage_count = cursor.getInt(cursor.getColumnIndexOrThrow("usage_count"))
+                clothesList.add(cloth)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return clothesList
+    }
+
+    fun getTypeId(typeName: String): Int? {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT typeID FROM $TABLE_SUBCATEGORY WHERE typeName = ?", arrayOf(typeName))
+        var typeId: Int? = null
+        if (cursor.moveToFirst()) {
+            typeId = cursor.getInt(cursor.getColumnIndexOrThrow("typeID"))
+        }
+        cursor.close()
+        db.close()
+        return typeId
+    }
+
     companion object {
         private const val DATABASE_NAME = "clotheorganizer.db"
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 5 // Incremented to 5 to trigger onUpgrade and populate data
 
         const val TABLE_USERS = "Users"
         const val TABLE_CATEGORY = "Category"

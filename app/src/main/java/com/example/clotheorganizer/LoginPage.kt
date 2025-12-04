@@ -39,9 +39,8 @@ class LoginPage : AppCompatActivity() {
         passwordLayout = findViewById(R.id.password)
 
         forgotpassword.setOnClickListener {
-            // val intent = Intent(this, ForgotPassword::class.java)
-            // startActivity(intent)
-            Toast.makeText(this, "Forgot Password feature not implemented yet.", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, ForgotPassword::class.java)
+            startActivity(intent)
         }
 
         signUpButton.setOnClickListener {

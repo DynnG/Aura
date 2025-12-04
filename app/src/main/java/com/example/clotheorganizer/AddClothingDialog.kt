@@ -148,7 +148,10 @@ class AddClothingDialog(
     }
 
     private fun getTypeID(type: String?): Int {
-        // This is a simplification. In a real app, you'd look this up from the DB.
-        return 1 
+        if (type == null) return 1
+        val dbHelper = AuraDBHelper(context)
+        val typeId = dbHelper.getTypeId(type)
+        dbHelper.close()
+        return typeId ?: 1
     }
 }
