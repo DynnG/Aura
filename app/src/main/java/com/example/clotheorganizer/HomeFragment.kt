@@ -195,6 +195,16 @@ class HomeFragment : Fragment() {
                 return position != 0
             }
 
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent) as TextView
+                if (position == 0) {
+                    view.setTextColor(Color.GRAY)
+                } else {
+                    view.setTextColor(Color.WHITE)
+                }
+                return view
+            }
+
             override fun getDropDownView(
                 position: Int,
                 convertView: View?,
