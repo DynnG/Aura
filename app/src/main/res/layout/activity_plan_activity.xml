@@ -41,9 +41,9 @@
         app:layout_constraintGuide_percent="0.40" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_necklace"
+        android:id="@+id/card_accessories1"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="180dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
@@ -57,7 +57,7 @@
         app:layout_constraintVertical_weight="1">
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager_necklace"
+            android:id="@+id/pager_accessories1"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -66,7 +66,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_bag"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="180dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="4dp"
         android:layout_marginStart="24dp"
@@ -75,7 +75,7 @@
         app:layout_constraintVertical_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
-        app:layout_constraintTop_toBottomOf="@id/card_necklace"
+        app:layout_constraintTop_toBottomOf="@id/card_accessories1"
         app:layout_constraintBottom_toTopOf="@id/card_shoes">
 
         <androidx.viewpager2.widget.ViewPager2
@@ -87,7 +87,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_shoes"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="180dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="4dp"
         android:layout_marginStart="24dp"
@@ -155,7 +155,7 @@
 
     <Button
         android:id="@+id/btn_create_random"
-        android:layout_width="0dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="8dp"
@@ -175,7 +175,7 @@
 
     <Button
         android:id="@+id/btn_create_outfit"
-        android:layout_width="0dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="24dp"
