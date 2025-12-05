@@ -5,5 +5,7 @@ class Outfit(
     var userID: Int? = null,
     var outfitID: Int? = null,
     var rand_top: Int? = null,
-    var rand_bottom: Int? = null
+    var rand_bottom: Int? = null,
+    var date: Long? = null,
+    var items: List<Clothes> = ArrayList()
 )

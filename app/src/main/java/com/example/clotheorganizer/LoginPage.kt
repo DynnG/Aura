@@ -61,9 +61,14 @@ class LoginPage : AppCompatActivity() {
 
             if (user != null) {
                 Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
+                
+                // Save User ID to SharedPreferences
+                val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+                val editor = sharedPreferences.edit()
+                user.userID?.let { editor.putInt("USER_ID", it) }
+                editor.apply()
+
                 val intent = Intent(this, dashboard::class.java)
-                // Optionally, you can pass user data to the dashboard
-                // intent.putExtra("USER_ID", user.userID)
                 startActivity(intent)
                 finish() // Finish LoginPage so the user can't go back to it
             } else {

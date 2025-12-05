@@ -69,30 +69,30 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_3"
-        android:layout_width="150dp"
-        android:layout_height="170dp"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="20dp"
-        app:cardBackgroundColor="@android:color/white"
-        app:strokeColor="@android:color/black"
-        app:strokeWidth="1dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_2">
+    android:id="@+id/card_3"
+    android:layout_width="150dp"
+    android:layout_height="170dp"
+    android:layout_marginTop="16dp"
+    app:cardCornerRadius="20dp"
+    app:cardBackgroundColor="@android:color/white"
+    app:strokeColor="@android:color/black"
+    app:strokeWidth="1dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/card_2">
 
-        <com.denzcoskun.imageslider.ImageSlider
-            android:id="@+id/slider_card3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:iss_period="1000"
-            app:iss_delay="1000"
-            app:iss_selected_dot="@android:color/black"
-            app:iss_corner_radius="20" />
-    </androidx.cardview.widget.CardView>
+    <com.denzcoskun.imageslider.ImageSlider
+        android:id="@+id/slider_card3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:iss_period="1000"
+        app:iss_delay="1000"
+        app:iss_selected_dot="@android:color/black"
+        app:iss_corner_radius="20" />
+</androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_tops"
-        android:layout_width="0dp"
+        android:layout_width="220dp"
         android:layout_height="300dp"
         android:layout_marginStart="16dp"
         app:cardCornerRadius="20dp"
@@ -116,7 +116,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_bottoms"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="350dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         app:cardCornerRadius="20dp"
@@ -152,7 +152,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            android:text="Random Outfit"
+            android:text="Raandom Outfit"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             app:backgroundTint="@android:color/black"

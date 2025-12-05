@@ -24,8 +24,8 @@
             <ImageView
                 android:id="@+id/imgCloth"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:scaleType="centerCrop"
+                android:layout_height="200dp"
+                android:scaleType="centerInside"
                 android:background="#F3F2F8"
                 android:src="@drawable/upload" />
         </com.google.android.material.card.MaterialCardView>

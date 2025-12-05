@@ -61,9 +61,15 @@ class ClothesAdapter(
         // Handle Toggle Click
         holder.toggleStatus.setOnCheckedChangeListener { _, isChecked ->
             updateStatusUI(holder, isChecked)
-            val newStatusId = if (isChecked) 1 else 2
-            cloth.clothesID?.let {
-                dbHelper.updateClothStatus(it, newStatusId)
+            
+            cloth.clothesID?.let { id ->
+                if (isChecked) {
+                    // Switched to Clean (1)
+                    dbHelper.updateClothStatus(id, 1)
+                } else {
+                    // Switched to Laundry (2) -> Log to History
+                    dbHelper.logOutfit(listOf(cloth))
+                }
                 onStatusUpdated()
             }
         }

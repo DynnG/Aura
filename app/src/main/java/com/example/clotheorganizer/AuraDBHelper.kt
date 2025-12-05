@@ -4,6 +4,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class AuraDBHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -12,7 +15,7 @@ class AuraDBHelper(context: Context) :
 
         // USERS TABLE
         db.execSQL(
-            "CREATE TABLE $TABLE_USERS (" +
+            "CREATE TABLE IF NOT EXISTS $TABLE_USERS (" +
                     "userID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "userName TEXT NOT NULL, " +
                     "password TEXT NOT NULL, " +
@@ -22,14 +25,14 @@ class AuraDBHelper(context: Context) :
 
         // CATEGORY TABLE
         db.execSQL(
-            "CREATE TABLE $TABLE_CATEGORY (" +
+            "CREATE TABLE IF NOT EXISTS $TABLE_CATEGORY (" +
                     "categoryID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "categoryName TEXT)"
         )
 
         // SUBCATEGORY TABLE
         db.execSQL(
-            "CREATE TABLE $TABLE_SUBCATEGORY (" +
+            "CREATE TABLE IF NOT EXISTS $TABLE_SUBCATEGORY (" +
                     "typeID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "categoryID INTEGER, " +
                     "typeName TEXT, " +
@@ -38,7 +41,7 @@ class AuraDBHelper(context: Context) :
 
         // STATUS TABLE
         db.execSQL(
-            "CREATE TABLE $TABLE_STATUS (" +
+            "CREATE TABLE IF NOT EXISTS $TABLE_STATUS (" +
                     "statusID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "status TEXT, " +
                     "lastUpdated LONG)"
@@ -46,7 +49,7 @@ class AuraDBHelper(context: Context) :
 
         // CLOTHES TABLE
         db.execSQL(
-            "CREATE TABLE $TABLE_CLOTHES (" +
+            "CREATE TABLE IF NOT EXISTS $TABLE_CLOTHES (" +
                     "clothesID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "userID INTEGER, " +
                     "categoryID INTEGER, " +
@@ -64,18 +67,19 @@ class AuraDBHelper(context: Context) :
 
         // OUTFIT TABLE
         db.execSQL(
-            "CREATE TABLE $TABLE_OUTFIT (" +
+            "CREATE TABLE IF NOT EXISTS $TABLE_OUTFIT (" +
                     "outfitID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "clothesID INTEGER, " +
                     "userID INTEGER, " +
                     "rand_top INTEGER, " +
                     "rand_bottom INTEGER, " +
+                    "date LONG, " +
                     "FOREIGN KEY(userID) REFERENCES $TABLE_USERS(userID))"
         )
 
         // OUTFIT ITEM TABLE
         db.execSQL(
-            "CREATE TABLE $TABLE_OUTFIT_ITEM (" +
+            "CREATE TABLE IF NOT EXISTS $TABLE_OUTFIT_ITEM (" +
                     "outfit_item_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "outfitID INTEGER, " +
                     "clothesID INTEGER, " +
@@ -84,32 +88,38 @@ class AuraDBHelper(context: Context) :
         )
 
         // --- PRE-POPULATE DATA ---
-
-        // Categories
-        db.execSQL("INSERT INTO $TABLE_CATEGORY (categoryName) VALUES ('Tops')") // 1
-        db.execSQL("INSERT INTO $TABLE_CATEGORY (categoryName) VALUES ('Bottoms')") // 2
-        db.execSQL("INSERT INTO $TABLE_CATEGORY (categoryName) VALUES ('Accessories')") // 3
-
-        // SubCategories (Types)
-        // Tops (1)
-        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (1, 'T-shirt')")
-        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (1, 'Polo')")
-        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (1, 'Sleeveless')")
-
-        // Bottoms (2)
-        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (2, 'Trousers')")
-        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (2, 'Jeans')")
-        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (2, 'Sweatpants')")
-
-        // Accessories (3)
-        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (3, 'Bags')")
-        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (3, 'Necklace')")
-        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (3, 'Extra')")
-        db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (3, 'Bracelets')")
+        val cursor = db.rawQuery("SELECT count(*) FROM $TABLE_CATEGORY", null)
+        cursor.moveToFirst()
+        val count = cursor.getInt(0)
+        cursor.close()
         
-        // Status
-        db.execSQL("INSERT INTO $TABLE_STATUS (status, lastUpdated) VALUES ('Clean', ${System.currentTimeMillis()})") // 1
-        db.execSQL("INSERT INTO $TABLE_STATUS (status, lastUpdated) VALUES ('Laundry', ${System.currentTimeMillis()})") // 2
+        if (count == 0) {
+             // Categories
+            db.execSQL("INSERT INTO $TABLE_CATEGORY (categoryName) VALUES ('Tops')") // 1
+            db.execSQL("INSERT INTO $TABLE_CATEGORY (categoryName) VALUES ('Bottoms')") // 2
+            db.execSQL("INSERT INTO $TABLE_CATEGORY (categoryName) VALUES ('Accessories')") // 3
+
+            // SubCategories (Types)
+            // Tops (1)
+            db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (1, 'T-shirt')")
+            db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (1, 'Polo')")
+            db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (1, 'Sleeveless')")
+
+            // Bottoms (2)
+            db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (2, 'Trousers')")
+            db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (2, 'Jeans')")
+            db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (2, 'Sweatpants')")
+
+            // Accessories (3)
+            db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (3, 'Bags')")
+            db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (3, 'Necklace')")
+            db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (3, 'Extra')")
+            db.execSQL("INSERT INTO $TABLE_SUBCATEGORY (categoryID, typeName) VALUES (3, 'Bracelets')")
+            
+            // Status
+            db.execSQL("INSERT INTO $TABLE_STATUS (status, lastUpdated) VALUES ('Clean', ${System.currentTimeMillis()})") // 1
+            db.execSQL("INSERT INTO $TABLE_STATUS (status, lastUpdated) VALUES ('Laundry', ${System.currentTimeMillis()})") // 2
+        }
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -119,7 +129,7 @@ class AuraDBHelper(context: Context) :
         db.execSQL("DROP TABLE IF EXISTS $TABLE_STATUS")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_SUBCATEGORY")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_CATEGORY")
-        db.execSQL("DROP TABLE IF EXISTS $TABLE_USERS")
+        // db.execSQL("DROP TABLE IF EXISTS $TABLE_USERS") // User data preserved during upgrades
         onCreate(db)
     }
 
@@ -179,11 +189,11 @@ class AuraDBHelper(context: Context) :
         return result
     }
 
-    fun getAllClothes(): List<Clothes> {
+    fun getClothesForUser(userId: Int): List<Clothes> {
         val clothesList = ArrayList<Clothes>()
-        val selectQuery = "SELECT * FROM $TABLE_CLOTHES ORDER BY clothesID DESC"
+        val selectQuery = "SELECT * FROM $TABLE_CLOTHES WHERE userID = ? ORDER BY clothesID DESC"
         val db = this.readableDatabase
-        val cursor = db.rawQuery(selectQuery, null)
+        val cursor = db.rawQuery(selectQuery, arrayOf(userId.toString()))
         if (cursor.moveToFirst()) {
             do {
                 val cloth = Clothes()
@@ -202,13 +212,17 @@ class AuraDBHelper(context: Context) :
         cursor.close()
         return clothesList
     }
+    
+    // Kept for backward compatibility if needed, but getClothesForUser should be used
+    fun getAllClothes(): List<Clothes> {
+        return getClothesForUser(1) // Default to 1 or empty? Better to return all or fail.
+    }
 
-    fun getClothesByType(typeName: String): List<Clothes> {
+    fun getClothesByTypeAndUser(typeName: String, userId: Int): List<Clothes> {
         val clothesList = ArrayList<Clothes>()
-        // Use INNER JOIN to ensure we only get clothes that have a matching valid type
-        val selectQuery = "SELECT c.* FROM $TABLE_CLOTHES c INNER JOIN $TABLE_SUBCATEGORY s ON c.typeID = s.typeID WHERE s.typeName = ? ORDER BY c.clothesID DESC"
+        val selectQuery = "SELECT c.* FROM $TABLE_CLOTHES c INNER JOIN $TABLE_SUBCATEGORY s ON c.typeID = s.typeID WHERE s.typeName = ? AND c.userID = ? ORDER BY c.clothesID DESC"
         val db = this.readableDatabase
-        val cursor = db.rawQuery(selectQuery, arrayOf(typeName))
+        val cursor = db.rawQuery(selectQuery, arrayOf(typeName, userId.toString()))
         if (cursor.moveToFirst()) {
             do {
                 val cloth = Clothes()
@@ -226,6 +240,39 @@ class AuraDBHelper(context: Context) :
         }
         cursor.close()
         return clothesList
+    }
+    
+    fun getClothesByCategoryAndUser(categoryName: String, userId: Int): List<Clothes> {
+        val clothesList = ArrayList<Clothes>()
+        val selectQuery = "SELECT c.* FROM $TABLE_CLOTHES c INNER JOIN $TABLE_CATEGORY cat ON c.categoryID = cat.categoryID WHERE cat.categoryName = ? AND c.userID = ? ORDER BY c.clothesID DESC"
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(selectQuery, arrayOf(categoryName, userId.toString()))
+        if (cursor.moveToFirst()) {
+            do {
+                val cloth = Clothes()
+                cloth.clothesID = cursor.getInt(cursor.getColumnIndexOrThrow("clothesID"))
+                cloth.userID = cursor.getInt(cursor.getColumnIndexOrThrow("userID"))
+                cloth.categoryID = cursor.getInt(cursor.getColumnIndexOrThrow("categoryID"))
+                cloth.statusID = cursor.getInt(cursor.getColumnIndexOrThrow("statusID"))
+                cloth.typeID = cursor.getInt(cursor.getColumnIndexOrThrow("typeID"))
+                cloth.name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+                cloth.image_path = cursor.getString(cursor.getColumnIndexOrThrow("image_path"))
+                cloth.date_added = cursor.getString(cursor.getColumnIndexOrThrow("date_added"))
+                cloth.usage_count = cursor.getInt(cursor.getColumnIndexOrThrow("usage_count"))
+                clothesList.add(cloth)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return clothesList
+    }
+    
+    fun getClothesByCategory(categoryName: String): List<Clothes> {
+        return getClothesByCategoryAndUser(categoryName, 1)
+    }
+    
+    fun getClothesByType(typeName: String): List<Clothes> {
+         // Deprecated or default usage
+         return getClothesByTypeAndUser(typeName, 1)
     }
 
     fun getTypeId(typeName: String): Int? {
@@ -239,10 +286,91 @@ class AuraDBHelper(context: Context) :
         db.close()
         return typeId
     }
+    
+    fun getAllOutfitsForUser(userId: Int): List<Outfit> {
+        val outfitMap = LinkedHashMap<String, Outfit>()
+        val selectQuery = "SELECT * FROM $TABLE_OUTFIT WHERE userID = ? ORDER BY date DESC"
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(selectQuery, arrayOf(userId.toString()))
+        
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndexOrThrow("outfitID"))
+                val dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("date"))
+                val dateString = sdf.format(Date(dateLong))
+                
+                val items = getOutfitItems(id)
+                
+                if (outfitMap.containsKey(dateString)) {
+                    val existing = outfitMap[dateString]!!
+                    val newItems = ArrayList(existing.items)
+                    newItems.addAll(items)
+                    existing.items = newItems
+                } else {
+                    val outfit = Outfit()
+                    outfit.outfitID = id
+                    outfit.date = dateLong
+                    outfit.items = items
+                    outfitMap[dateString] = outfit
+                }
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return ArrayList(outfitMap.values)
+    }
+    
+    fun getAllOutfits(): List<Outfit> {
+        return getAllOutfitsForUser(1)
+    }
+
+    private fun getOutfitItems(outfitID: Int): List<Clothes> {
+        val items = ArrayList<Clothes>()
+        val query = "SELECT c.* FROM $TABLE_CLOTHES c INNER JOIN $TABLE_OUTFIT_ITEM oi ON c.clothesID = oi.clothesID WHERE oi.outfitID = ?"
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(query, arrayOf(outfitID.toString()))
+        if (cursor.moveToFirst()) {
+             do {
+                val cloth = Clothes()
+                cloth.clothesID = cursor.getInt(cursor.getColumnIndexOrThrow("clothesID"))
+                cloth.name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+                cloth.image_path = cursor.getString(cursor.getColumnIndexOrThrow("image_path"))
+                items.add(cloth)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return items
+    }
+
+    fun logOutfit(items: List<Clothes>, userId: Int): Long {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put("date", System.currentTimeMillis())
+        values.put("userID", userId)
+        
+        val outfitID = db.insert(TABLE_OUTFIT, null, values)
+        
+        for (item in items) {
+            val itemValues = ContentValues()
+            itemValues.put("outfitID", outfitID)
+            itemValues.put("clothesID", item.clothesID)
+            db.insert(TABLE_OUTFIT_ITEM, null, itemValues)
+            
+            updateClothStatus(item.clothesID!!, 2)
+        }
+        db.close()
+        return outfitID
+    }
+    
+    // Overload for backward compatibility but defaults to 1?
+    fun logOutfit(items: List<Clothes>): Long {
+        return logOutfit(items, 1)
+    }
 
     companion object {
         private const val DATABASE_NAME = "clotheorganizer.db"
-        private const val DATABASE_VERSION = 5 // Incremented to 5 to trigger onUpgrade and populate data
+        private const val DATABASE_VERSION = 7 // Incremented version
 
         const val TABLE_USERS = "Users"
         const val TABLE_CATEGORY = "Category"
