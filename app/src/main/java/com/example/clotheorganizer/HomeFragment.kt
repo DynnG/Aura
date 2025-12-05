@@ -79,12 +79,6 @@ class HomeFragment : Fragment() {
         }
         rvClothes.adapter = adapter
 
-        // ⛔ REMOVE highlight + applyFilters here (this was the bug)
-        // activeFilter = "all"
-        // selectedType = null
-        // applyFilters()
-        // updateCardUI(cardAll, textAll)
-
         // Click Listeners
         cardAll.setOnClickListener {
             selectedType = null
@@ -126,6 +120,7 @@ class HomeFragment : Fragment() {
         setupSpinner(accSpinner, arrayOf("Accessories", "Necklace", "Bracelets", "Bags", "Extra"))
 
         view.post {
+            isInitializing = false
             activeFilter = "all"
             selectedType = null
 
@@ -136,21 +131,19 @@ class HomeFragment : Fragment() {
             allBtn.setTextColor(Color.BLACK)
         }
     }
-
-    /* ---------------------------------------------------------- */
-    /*   ⭐ NEW FIX — AUTO DISPLAY CLOTHES WHEN SCREEN OPENS       */
-    /* ---------------------------------------------------------- */
+    
     override fun onResume() {
         super.onResume()
-
-        activeFilter = "all"
-        selectedType = null
-
-        applyFilters() // Auto-load clothes
-        updateCardUI(cardAll, textAll) // Highlight “All” card
-
-        allBtn.setBackgroundResource(R.drawable.rounded_button_pressed)
-        allBtn.setTextColor(Color.BLACK)
+        // Don't override filters here unless you want to reset on back navigation every time.
+        // If you want persistent state on back, remove this block or check if first load.
+        if (clothesList.isEmpty()) {
+            activeFilter = "all"
+            selectedType = null
+            applyFilters()
+            updateCardUI(cardAll, textAll)
+            allBtn.setBackgroundResource(R.drawable.rounded_button_pressed)
+            allBtn.setTextColor(Color.BLACK)
+        }
     }
 
     fun refreshData() {
@@ -173,11 +166,7 @@ class HomeFragment : Fragment() {
         if (!::dbHelper.isInitialized) return
 
         val baseList = if (selectedType != null) {
-            if (selectedType == "Tops" || selectedType == "Bottoms" || selectedType == "Accessories") {
-                dbHelper.getClothesByCategory(selectedType!!)
-            } else {
-                dbHelper.getClothesByType(selectedType!!)
-            }
+             dbHelper.getClothesByType(selectedType!!)
         } else {
             dbHelper.getAllClothes()
         }
@@ -230,6 +219,11 @@ class HomeFragment : Fragment() {
             android.R.layout.simple_spinner_item,
             items
         ) {
+            override fun isEnabled(position: Int): Boolean {
+                // Disable the first item (header/hint)
+                return position != 0
+            }
+            
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent) as TextView
                 view.setTextColor(Color.WHITE)
@@ -243,7 +237,11 @@ class HomeFragment : Fragment() {
                 parent: ViewGroup
             ): View {
                 val view = super.getDropDownView(position, convertView, parent) as TextView
-                view.setTextColor(Color.WHITE)
+                if (position == 0) {
+                    view.setTextColor(Color.GRAY)
+                } else {
+                    view.setTextColor(Color.WHITE)
+                }
                 view.gravity = Gravity.CENTER
                 return view
             }
@@ -259,7 +257,8 @@ class HomeFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                if (view == null || isResettingSpinners || isInitializing) return
+                // Skip initialization, resetting, or if the header (position 0) is selected
+                if (view == null || isResettingSpinners || isInitializing || position == 0) return
 
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 resetOtherSpinners(spinner.id)
