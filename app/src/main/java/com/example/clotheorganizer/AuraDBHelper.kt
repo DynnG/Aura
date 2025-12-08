@@ -357,9 +357,12 @@ class AuraDBHelper(context: Context) :
             itemValues.put("clothesID", item.clothesID)
             db.insert(TABLE_OUTFIT_ITEM, null, itemValues)
             
-            updateClothStatus(item.clothesID!!, 2)
+            // DIRECT UPDATE to avoid closing DB
+            val statusValues = ContentValues()
+            statusValues.put("statusID", 2)
+            db.update(TABLE_CLOTHES, statusValues, "clothesID = ?", arrayOf(item.clothesID.toString()))
         }
-        db.close()
+        // REMOVED db.close() to prevent closing the connection prematurely
         return outfitID
     }
     
