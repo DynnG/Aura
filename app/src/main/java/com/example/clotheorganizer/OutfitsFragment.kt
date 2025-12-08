@@ -1,5 +1,6 @@
 package com.example.clotheorganizer
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -64,10 +65,22 @@ class OutfitsFragment : Fragment() {
         })
         
         btnWearOutfit.setOnClickListener {
+            // Temporary visual feedback
+            btnWearOutfit.setBackgroundColor(Color.GRAY)
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (isAdded) btnWearOutfit.setBackgroundColor(Color.BLACK)
+            }, 200)
+            
             wearOutfit()
         }
         
         btnRandomOutfit.setOnClickListener {
+            // Temporary visual feedback
+            btnRandomOutfit.setBackgroundColor(Color.GRAY)
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (isAdded) btnRandomOutfit.setBackgroundColor(Color.BLACK)
+            }, 200)
+            
             startRandomSpin()
         }
 
@@ -80,11 +93,6 @@ class OutfitsFragment : Fragment() {
              return
         }
 
-        // We will simulate a spin by starting the slideshow quickly and then stopping it after a delay
-        // Unfortunately the ImageSlider library is limited in programmatic control (like 'setCurrentItem').
-        // But we can start sliding and then stop.
-        // Actually, startSliding() starts the auto cycle.
-        
         sliderTops.startSliding(100) // Fast speed
         sliderBottoms.startSliding(100)
         
@@ -99,15 +107,6 @@ class OutfitsFragment : Fragment() {
              // Stop sliding
              sliderTops.stopSliding()
              sliderBottoms.stopSliding()
-             
-             // Now we want to pick a random item. The library doesn't easily expose "setCurrentItem".
-             // However, `stopSliding` just stops the auto cycle. The view stays at the current item.
-             // Ideally we want to jump to a specific random index, but this library is basic.
-             // As a workaround, we can re-set the image list which resets to 0, or just trust the spin stopped somewhere random.
-             // A better trick if supported: re-load the list but shuffled? No, that messes up the index matching.
-             
-             // Since we can't reliably "set" the index with this library version easily without seeing docs,
-             // we will just assume `stopSliding` leaves it at a random spot.
              
              // Re-enable buttons
              if (isAdded) {
